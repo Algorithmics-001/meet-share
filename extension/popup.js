@@ -26,7 +26,7 @@ function saveName() {
 
 // Show the name div with the given name
 function showNameDiv(name) {
-  document.getElementById('nameInputDiv').style.display = 'none';
+  // document.getElementById('nameInputDiv').style.display = 'none';
   document.getElementById('nameDiv').style.display = 'block';
   document.getElementById('savedName').textContent = 'Your Name: ' + name;
 }
