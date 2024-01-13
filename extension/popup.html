@@ -2,20 +2,28 @@
 <html>
 <head>
   <title>Google Meet URL</title>
-<link rel="stylesheet" href="../extension/styles/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
   <script src="popup.js"></script>
 </head>
-<body>
+
+<body class = "meet-extension-wrapper">
   <h2>Google Meet URL</h2>
+  <div class="inputwrapper">
   <div id="nameInputDiv">
-    <label for="name">Your Name:</label>
+    <!-- <label for="name">Your Name:</label> -->
     <input type="text" id="name" placeholder="Enter your name">
-    <button onclick="saveName()">Save Name</button>
+    <button onclick="saveName()">Save</button>
   </div>
+  <hr>
   <div id="nameDiv">
     <p id="savedName"></p>
     <button id="updateButton">Update Name</button>
   </div>
+</div>
   <p id="meetUrl"></p>
 </body>
 </html>

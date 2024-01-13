@@ -1,0 +1,63 @@
+*{
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+}
+:root{
+    --color : #202124;
+    --white : #efefef;
+    --font : "Poppins";
+    --glass : rgba(255, 255, 255, 0.096);
+}
+body {
+  padding: 10px 5px 30px 5px;
+    font-family: var(--font);
+    background-color: var(--color);
+    color: var(--white);
+    border: 2px solid var(--color);
+    width: 200px;
+    text-align: center;
+  }
+  #nameDiv {
+    display: none;
+  }
+  .inputwrapper{
+    margin-top: 10px;
+    /* padding: ; */
+  padding: 5px 1px 15px 1px;
+  border-radius: 10px;
+    
+    border: 1px solid var(--white);
+    display: flex;
+    flex-direction: column;
+  }
+  .inputwrapper input::placeholder{
+    font-family: var(--font);
+    font-weight: 300;
+    color: var(--white);
+    text-align: center
+  }
+  .inputwrapper input{
+    padding: 5px;
+    border-radius: 7px;
+    border: 1px solid var(--white);
+    background-color: var(--glass);
+  }
+  .inputwrapper button{
+    background-color: var(--glass);
+    padding: 2px;
+    color: var(--white);
+    border-radius: 7px;
+
+    width: 50%;
+    font-family: var(--font);
+  }.inputwrapper div{
+    display: flex;
+    gap: 3px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
