@@ -1,5 +1,5 @@
 const nameobj = document.querySelector('#name');
-const editbtn = document.querySelector(".material-symbols-outlined");
+const editbtn = document.querySelector("#editname");
 var savedName;
 document.addEventListener('DOMContentLoaded', function() {
   // Load saved name from storage
@@ -38,7 +38,19 @@ editbtn.addEventListener("click",()=>{
   nameobj.value = null;
 
 })
+nameobj.addEventListener('keyup', function (event) {
+  // Check if the pressed key is Enter (key code 13)
+  if (event.keyCode === 13) {
+      // Perform your desired action here
+      var newName = nameobj.value;
+  nameobj.classList.add("hiddeninput");
+  nameobj.setAttribute('readonly', 'true');
+  editbtn.style.display = "block";
 
+  
+
+  }
+});
 function saveName() {
   var name = document.getElementById('name').value;
   chrome.storage.sync.set({ 'name': name }, function() {
