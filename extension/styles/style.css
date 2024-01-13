@@ -1,0 +1,8 @@
+body {
+      
+    width: 250px;
+    text-align: center;
+  }
+  #nameDiv {
+    display: none;
+  }
