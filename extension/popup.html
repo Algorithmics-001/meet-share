@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Meet URL</title>
+  <style>
+    body {
+      width: 250px;
+      text-align: center;
+    }
+    #nameDiv {
+      display: none;
+    }
+  </style>
+  <script src="popup.js"></script>
+</head>
+<body>
+  <h2>Google Meet URL</h2>
+  <div id="nameInputDiv">
+    <label for="name">Your Name:</label>
+    <input type="text" id="name" placeholder="Enter your name">
+    <button onclick="saveName()">Save Name</button>
+  </div>
+  <div id="nameDiv">
+    <p id="savedName"></p>
+    <button onclick="updateName()">Update Name</button>
+  </div>
+  <p id="meetUrl"></p>
+</body>
+</html>
