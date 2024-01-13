@@ -1,10 +1,11 @@
+const nameobj = document.querySelector('#name');
+const editbtn = document.querySelector(".material-symbols-outlined");
+var savedName;
 document.addEventListener('DOMContentLoaded', function() {
   // Load saved name from storage
   chrome.storage.sync.get(['name'], function(result) {
-    var savedName = result.name;
-    if (savedName) {
-      showNameDiv(savedName);
-    }
+    savedName = result.name;
+    
   });
 
   // Load Google Meet URL
@@ -14,25 +15,34 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('meetUrl').textContent = meetUrl;
   });
 });
+savedName = "Ekuspreet"
+// alert(savedName);
 
-// Save name to storage and show the name div
+
+
+
+if(savedName){
+  nameobj.classList.add("hiddeninput");
+  nameobj.value = savedName;
+  nameobj.setAttribute('readonly', 'true');
+
+}
+
+
+editbtn.addEventListener("click",()=>{
+  editbtn.style.display = "None";
+  nameobj.classList.remove("hiddeninput");
+  nameobj.removeAttribute('readonly');
+  // nameobj.setAttribute('readonly', 'false');
+  
+  nameobj.value = null;
+
+})
+
 function saveName() {
   var name = document.getElementById('name').value;
   chrome.storage.sync.set({ 'name': name }, function() {
     console.log('Name saved: ' + name);
     showNameDiv(name);
   });
-}
-
-// Show the name div with the given name
-function showNameDiv(name) {
-  // document.getElementById('nameInputDiv').style.display = 'none';
-  document.getElementById('nameDiv').style.display = 'block';
-  document.getElementById('savedName').textContent = 'Your Name: ' + name;
-}
-
-// Update name button handler
-function updateName() {
-  document.getElementById('nameInputDiv').style.display = 'block';
-  document.getElementById('nameDiv').style.display = 'none';
 }
