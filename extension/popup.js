@@ -25,6 +25,7 @@ if(savedName){
   nameobj.classList.add("hiddeninput");
   nameobj.value = savedName;
   nameobj.setAttribute('readonly', 'true');
+  editbtn.style.display = "block";
 
 }
 
