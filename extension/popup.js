@@ -1,12 +1,25 @@
 var extension = document.getElementById('extension');
 
 async function getAllRooms() {
-  const response = await fetch('https://amr.sytes.net/meet', {
-    method: 'GET',
-  });
-  console.log(response)
-  return response.body;
+  try {
+    const response = await fetch('https://amr.sytes.net/meet', {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+
+    const responseData = await response.json(); // Assuming response is JSON data
+    console.log(responseData); // Logging the response data
+    return responseData;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error; // Rethrow the error to be handled by the caller if necessary
+  }
 }
+
+
 
 function createRoom(roomName, createTime, roomURL){
 
@@ -70,37 +83,53 @@ function newMeetRoom(){
   extension.appendChild(button);
 }
 
-function chatMeetList(){
-  var roomList = [] 
+function chatMeetList() {
+  var roomList = [];
 
   getAllRooms()
-  .then(rooms => {
-    roomList = rooms
-  })
-  .catch(error => {
-    console.error('Error fetching rooms:', error);
-  });
+    .then(rooms => {
+      roomList = rooms;
+      
+      extension.innerHTML = '';
 
-  extension.innerHTML = '';
+      var goBack = document.createElement('button');
+      goBack.innerHTML = '<<';
+      goBack.addEventListener('click', function() {
+        home();
+      });
 
-  var goBack = document.createElement('button');
-  goBack.innerHTML = '<<';
-  goBack.addEventListener('click', function() {
-    home()
-  });
+      extension.appendChild(goBack);
 
-  extension.appendChild(goBack);
+      roomList.forEach(function(item) {
+        console.log(item)
+        var link = document.createElement('a');
+        link.innerHTML = item.name;
+        link.href = item.url;
+        link.style.backgroundColor = '#000'; // Green background color
+        link.style.border = 'none';
+        link.style.color = 'white';
+        link.style.padding = '8px 16px'; // Adjust padding to make the button smaller
+        link.style.textAlign = 'center';
+        link.style.textDecoration = 'none';
+        link.style.display = 'flex'; // Set display to block
+        link.style.flexWrap = 'wrap';
+        link.style.fontSize = '14px'; // Adjust font size to make the button smaller
+        link.style.margin = '10px 0'; // Add margin to separate buttons vertically
+        link.style.cursor = 'pointer';
+        link.style.borderRadius = '4px';
 
-  console.log(roomList)
-  roomList.forEach(function(item) {
-    var button = document.createElement('button');
-    button.innerHTML = item.name;
-    button.addEventListener('click', function() {
-      window.open(item.url);
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default action of clicking a link
+            window.open(item.url);
+        });
+        extension.appendChild(link);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching rooms:', error);
     });
-    extension.appendChild(button);
-  });
 }
+
 
 function home(){
   extension.innerHTML='';
