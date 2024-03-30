@@ -3,7 +3,7 @@ name: Deploy meet-share api
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
