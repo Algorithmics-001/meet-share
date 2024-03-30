@@ -1,0 +1,48 @@
+name: Deploy meet-share api
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: amr
+    steps:
+      - name: stop the server if running
+        working-directory: /home/github/meet-share/server/
+        run: sudo systemctl stop meet-share
+
+      - name: Update the repo
+        working-directory: /home/github/meet-share/
+        run: |
+         git pull
+
+      - name: Setup enviornment variables
+        working-directory: /home/github/meet-share/server/
+        run: |
+          echo "POSTGRESQL_USERNAME=\"${{ secrets.POSTGRESQL_USERNAME }}\"" > .env
+          echo "POSTGRESQL_HOST=\"${{ secrets.POSTGRESQL_HOST }}\"" >> .env
+          echo "POSTGRESQL_DATABASE=\"${{ secrets.POSTGRESQL_DATABASE }}\"" >> .env
+          echo "POSTGRESQL_PASSWORD=\"${{ secrets.POSTGRESQL_PASSWORD }}\"" >> .env
+          echo "POSTGRESQL_PORT=\"${{ secrets.POSTGRESQL_PORT }}\"" >> .env
+          echo "EXPRESS_PORT=\"${{ secrets.EXPRESS_PORT }}\"" >> .env
+          echo "ENDPOINT_URL=\"${{ secrets.ENDPOINT_URL }}\"" >> .env
+
+
+      - name: Install packages
+        working-directory: /home/github/meet-share/server/
+        run: npm i
+
+      - name: Start the server
+        run: sudo systemctl restart meet-api
+    
+      - name: send telegram message on push
+        working-directory: /home/github/
+        run: |
+          export MESSAGE=" ${{ github.actor }} created commit:
+          Commit message: ${{ github.event.commits[0].message }}
+          Repository: ${{ github.repository }}
+          See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}"
+          ./notify.sh "$MESSAGE"
+
