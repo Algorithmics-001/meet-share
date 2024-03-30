@@ -5,7 +5,8 @@
   "description": "Get the URL of the current Google Meet",
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "https://amr.sytes.net/"
   ],
   "browser_action": {
     "default_icon": {

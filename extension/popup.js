@@ -1,9 +1,13 @@
 var extension = document.getElementById('extension');
-var ROOM_LIST = [{"id":2,"name":"no reason","time":"2024-03-29T18:30:00.000Z","url":"meet.google.com/idk"}]
+var ROOM_LIST = []
 
-function getAll(){
+function getAllRooms(){
   fetch('https://amr.sytes.net/meet', {
+    mode: 'no-cors',
     method: 'GET',
+    headers: {
+      'Access-Control-Allow-Origin':'*'
+    }
   })
   .then(response => {
     if (!response.ok) {
@@ -25,9 +29,11 @@ function createRoom(roomName, createTime, roomURL){
   }
 
   fetch('https://amr.sytes.net/meet', {
+    mode: 'no-cors',
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin':'*'
     },
     body: JSON.stringify(requestBody)
   })
@@ -59,10 +65,10 @@ function newMeetRoom(){
   var button = document.createElement('button');
   button.innerHTML = 'Create Room';
   button.addEventListener('click', function() {
-    if((roomName.innerHTML != "") && (roomURL != "")){
+    if((roomName.value != "") && (roomURL.value != "")){
       const currentDate = new Date();
       const formattedDate = currentDate.toISOString();
-      createRoom(roomName.innerHTML, formattedDate, roomURL.innerHTML)
+      createRoom(roomName.value, formattedDate, roomURL.value)
     }
   });
 
@@ -79,6 +85,7 @@ function newMeetRoom(){
 }
 
 function chatMeetList(){
+  getAllRooms()
   extension.innerHTML = '';
 
   var goBack = document.createElement('button');
