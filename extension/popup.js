@@ -1,60 +1,81 @@
-function saveName() {
-  // alert("first alert");
-  chrome.storage.local.set({ 'name': "Amr" }, function() {
-    alert("second alert");
-    console.log('Name saved: Amr');  // Note: Use the actual value 'Amr' here, as 'name' is not defined in this scope
-    alert("name saved");
+var roomList = document.getElementById('roomlist');
+
+function isGoogleMeetUrl(url) {
+  return (url == "https://meet.google.com/")
+}
+
+function getAllRooms(){
+  fetch('/meet', {
+    method: 'GET',
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .catch(error => {
+    console.error('There was a problem with your fetch operation:', error);
   });
 }
 
-saveName();
-const nameobj = document.querySelector('#name');
-const editbtn = document.querySelector("#editname");
-var savedName;
-document.addEventListener('DOMContentLoaded', function() {
-  // Load saved name from storage
-  chrome.storage.sync.get(['name'], function(result) {
-    savedName = result.name;
-    alert(savedName);
+function newMeetRoom(){
+  var inputBox = document.createElement('input');
+  inputBox.type = 'text';
+  inputBox.placeholder = 'Enter room name';
+
+  var button = document.createElement('button');
+  button.innerHTML = 'Create Room';
+  button.addEventListener('click', function() {
+    var roomName = inputBox.value;
+    console.log("Joining room:", roomName);
   });
 
-  // Load Google Meet URL
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    var currentTab = tabs[0];
-    var meetUrl = getMeetUrl(currentTab.url);
-    document.getElementById('meetUrl').textContent = meetUrl;
-  });
-});
-// savedName = "Ekuspreet"
-// alert(savedName);
-
-
-
-if(savedName){
-  nameobj.classList.add("hiddeninput");
-  nameobj.value = savedName;
-  nameobj.setAttribute('readonly', 'true');
-  editbtn.style.display = "block";
-
+  roomList.innerHTML = '';
+  roomList.appendChild(inputBox);
+  roomList.appendChild(button);
 }
 
+function chatMeetList(){
+  var data = [{"id":2,"name":"no reason","time":"2024-03-29T18:30:00.000Z","url":"meet.google.com/idk"}]
 
-editbtn.addEventListener("click",()=>{
-  editbtn.style.display = "None";
-  nameobj.classList.remove("hiddeninput");
-  nameobj.removeAttribute('readonly');
-  // nameobj.setAttribute('readonly', 'false');
-  
-  nameobj.value = null;
+  roomList.innerHTML = '';
 
-})
-nameobj.addEventListener('keyup', function (event) {
-  // Check if the pressed key is Enter (key code 13)
-  if (event.keyCode === 13) {
-      // Perform your desired action here
-      var newName = nameobj.value;
-  nameobj.classList.add("hiddeninput");
-  nameobj.setAttribute('readonly', 'true');
-  editbtn.style.display = "block";
+  data.forEach(function(item) {
+    var button = document.createElement('button');
+    button.innerHTML = item.name;
+    button.addEventListener('click', function() {
+      window.open(item.url);
+    });
+    roomList.appendChild(button);
+  });
+}
+
+function updateUI(url) {
+  if (isGoogleMeetUrl(url)) {
+    newMeetRoom()
+  } 
+  else 
+  {
+    chatMeetList()
   }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  function fetchAndUpdateUI() {
+    console.log("ok")
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      var currentTab = tabs[0];
+      if (currentTab && currentTab.url) {
+        updateUI(currentTab.url);
+      } 
+      else {
+        console.log("Unable to retrieve current tab information.");
+      }
+    });
+  }
+
+  fetchAndUpdateUI();
+
+  setInterval(fetchAndUpdateUI, 1000);
 });
