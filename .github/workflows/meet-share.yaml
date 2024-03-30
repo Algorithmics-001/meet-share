@@ -35,7 +35,7 @@ jobs:
         run: npm i
 
       - name: Start the server
-        run: sudo systemctl restart meet-api
+        run: sudo systemctl restart meet-share
     
       - name: send telegram message on push
         working-directory: /home/github/
