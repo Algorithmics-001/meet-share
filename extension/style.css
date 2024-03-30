@@ -2,7 +2,10 @@
   margin: 0;
   padding: 0;
   outline: none;
+  border: none;
+  color: var(--white);
   background-color: transparent;
+  font-family: var(--font);
 }
 
 :root {
@@ -10,57 +13,120 @@
   --white: #efefef;
   --font: "Poppins";
   --glass: rgba(255, 255, 255, 0.096);
+  --glass-dark :  rgba(62, 62, 62, 0.283);
+  --xxl : 12pt;
+  --xl : 8pt;
+  --bold : 600;
 }
 
 body {
-  padding: 10px;
-  font-family: var(--font);
+  padding: 10px 10px 25px;
   background-color: var(--color);
-  color: var(--white);
-  border: 2px solid var(--color);
+  /* color: var(--white); */
   width: 220px;
   text-align: center;
 }
+.heading{
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: .2em;
+}
+.heading img{
+  
+  width: 25px;
+  height: 20px;
 
-.inputwrapper input::placeholder {
-  font-family: var(--font);
-  font-weight: 300;
-  color: var(--white);
-  text-align: center;
 }
 
+.separator{
+  background-color: var(--white);
+  height: 2px; 
+  margin: 6px 0px;
+}
+
+.inputwrapper{
+  margin-top: 5px;
+}
+
+
+.inputwrapper #extension{
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+
+ /* Buttons  */
+.inputwrapper button {
+  background-color: var(--glass);
+  padding: .5em 1em;
+  font-weight: var(--bold);
+  /* color: var(--white); */
+  border-radius: 7px;
+  cursor: pointer;
+  
+}
+.inputwrapper button:hover{
+  background-color: var(--glass-dark);
+}
+
+
 .inputwrapper input {
-  /* display: none; */
   text-align: center;
   font-size: 12pt;
   padding: 5px;
-  width: 70%;
+  width: 100%;
   margin-top: 5px;
-  color: var(--white);
+  /* color: var(--white); */
   border-radius: 7px;
   border: 1px solid var(--white);
   background-color: var(--glass);
 }
-.inputwrapper .hiddeninput{
-  border: none;
-  background-color: transparent;
-  display: block;
-  cursor: default;
-  }
-.inputwrapper button {
-  background-color: var(--glass);
-  padding: 2px;
-  color: var(--white);
-  border-radius: 7px;
-  cursor: pointer;
-  font-family: var(--font);
+
+.inputpage{
+  display: flex;
+  flex-direction: column;
+}
+.urlpage{
+
+  display: flex;
+  flex-direction: column;
 }
 
-.inputwrapper div {
+.urlpage button{
+  width: 100%;
+}
+
+#backbtn{
+  position: sticky;
+  display: block;
+  top: 0;
+  width: 100%;
+  align-self: baseline;
+
+  background-color: var(--color);
+  border: 1px solid var(--white);
+}
+.roomlist{
+  /* top: 40px; */
+  /* position: relative; */
   display: flex;
-  gap: 3px;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  height: 200px;
+  overflow: auto;
+  /* margin-top: -100px; */
+}
+.roomlist button{
+  width: 100%;
+}
+
+#roomlist{
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -78,3 +144,31 @@ body {
 #editname{
   display: none;
 }
+
+/* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
+/** {
+  scrollbar-width: thin;
+  scrollbar-color: #397524 #FFFFFF;
+}*/
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 11px;
+  width: 11px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: transparent;
+}
+
+
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--white);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--white)
+}
+
