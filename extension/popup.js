@@ -1,18 +1,69 @@
 var extension = document.getElementById('extension');
 var ROOM_LIST = [{"id":2,"name":"no reason","time":"2024-03-29T18:30:00.000Z","url":"meet.google.com/idk"}]
 
+function getAll(){
+  fetch('https://amr.sytes.net/meet', {
+    method: 'GET',
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    ROOM_LIST = response.json();
+  })
+  .catch(error => {
+    console.error('There was a problem with your fetch operation:', error);
+  });
+}
+
+function createRoom(roomName, createTime, roomURL){
+
+  const requestBody = {
+    name: roomName,
+    time: createTime,
+    url: roomURL
+  }
+
+  fetch('https://amr.sytes.net/meet', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('POST request successful:', data);
+  })
+  .catch(error => {
+    console.error('There was a problem with the POST request:', error);
+  });
+}
+
 function newMeetRoom(){
   extension.innerHTML = '';
 
-  var inputBox = document.createElement('input');
-  inputBox.type = 'text';
-  inputBox.placeholder = 'Enter room name';
+  var roomName = document.createElement('input');
+  roomName.type = 'text';
+  roomName.placeholder = 'Name';
+
+  var roomURL = document.createElement('input');
+  roomURL.type = 'text';
+  roomURL.placeholder = 'URL';
 
   var button = document.createElement('button');
   button.innerHTML = 'Create Room';
   button.addEventListener('click', function() {
-    var roomName = inputBox.value;
-    console.log("Joining room:", roomName);
+    if((roomName.innerHTML != "") && (roomURL != "")){
+      const currentDate = new Date();
+      const formattedDate = currentDate.toISOString();
+      createRoom(roomName.innerHTML, formattedDate, roomURL.innerHTML)
+    }
   });
 
   var goBack = document.createElement('button');
@@ -22,7 +73,8 @@ function newMeetRoom(){
   });
 
   extension.appendChild(goBack);
-  extension.appendChild(inputBox);
+  extension.appendChild(roomName);
+  extension.appendChild(roomURL);
   extension.appendChild(button);
 }
 
