@@ -4,7 +4,8 @@
   "version": "1.0",
   "description": "Get the URL of the current Google Meet",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "browser_action": {
     "default_icon": {

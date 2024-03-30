@@ -1,3 +1,13 @@
+function saveName() {
+  // alert("first alert");
+  chrome.storage.local.set({ 'name': "Amr" }, function() {
+    alert("second alert");
+    console.log('Name saved: Amr');  // Note: Use the actual value 'Amr' here, as 'name' is not defined in this scope
+    alert("name saved");
+  });
+}
+
+saveName();
 const nameobj = document.querySelector('#name');
 const editbtn = document.querySelector("#editname");
 var savedName;
@@ -5,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Load saved name from storage
   chrome.storage.sync.get(['name'], function(result) {
     savedName = result.name;
-    
+    alert(savedName);
   });
 
   // Load Google Meet URL
@@ -15,9 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('meetUrl').textContent = meetUrl;
   });
 });
-savedName = "Ekuspreet"
+// savedName = "Ekuspreet"
 // alert(savedName);
-
 
 
 
@@ -47,15 +56,5 @@ nameobj.addEventListener('keyup', function (event) {
   nameobj.classList.add("hiddeninput");
   nameobj.setAttribute('readonly', 'true');
   editbtn.style.display = "block";
-
-  
-
   }
 });
-function saveName() {
-  var name = document.getElementById('name').value;
-  chrome.storage.sync.set({ 'name': name }, function() {
-    console.log('Name saved: ' + name);
-    showNameDiv(name);
-  });
-}
