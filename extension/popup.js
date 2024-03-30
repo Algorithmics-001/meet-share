@@ -1,4 +1,4 @@
-var roomList = document.getElementById('roomlist');
+var extension = document.getElementById('extension');
 
 function isGoogleMeetUrl(url) {
   return (url == "https://meet.google.com/")
@@ -20,6 +20,8 @@ function getAllRooms(){
 }
 
 function newMeetRoom(){
+  extension.innerHTML = '';
+
   var inputBox = document.createElement('input');
   inputBox.type = 'text';
   inputBox.placeholder = 'Enter room name';
@@ -31,15 +33,12 @@ function newMeetRoom(){
     console.log("Joining room:", roomName);
   });
 
-  roomList.innerHTML = '';
-  roomList.appendChild(inputBox);
-  roomList.appendChild(button);
+  extension.appendChild(inputBox);
+  extension.appendChild(button);
 }
 
 function chatMeetList(){
-  var data = [{"id":2,"name":"no reason","time":"2024-03-29T18:30:00.000Z","url":"meet.google.com/idk"}]
-
-  roomList.innerHTML = '';
+  extension.innerHTML = '';
 
   data.forEach(function(item) {
     var button = document.createElement('button');
@@ -47,35 +46,29 @@ function chatMeetList(){
     button.addEventListener('click', function() {
       window.open(item.url);
     });
-    roomList.appendChild(button);
+    extension.appendChild(button);
   });
 }
 
-function updateUI(url) {
-  if (isGoogleMeetUrl(url)) {
+function home(){
+  extension.innerHTML='';
+
+  var NewRoom = document.createElement('button')
+  NewRoom.innerHTML("New Room")
+  NewRoom.addEventListener('click', function() {
     newMeetRoom()
-  } 
-  else 
-  {
+  })
+
+  var AllRooms = document.createElement('button')
+  AllRooms.innerHTML("")
+  AllRooms.addEventListener('click', function() {
     chatMeetList()
-  }
+  })
+
+  extension.appendChild(NewRoom)
+  extension.appendChild(AllRooms)
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  function fetchAndUpdateUI() {
-    console.log("ok")
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      var currentTab = tabs[0];
-      if (currentTab && currentTab.url) {
-        updateUI(currentTab.url);
-      } 
-      else {
-        console.log("Unable to retrieve current tab information.");
-      }
-    });
-  }
-
-  fetchAndUpdateUI();
-
-  setInterval(fetchAndUpdateUI, 1000);
+  home()
 });
