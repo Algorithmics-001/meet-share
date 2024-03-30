@@ -1,23 +1,11 @@
 var extension = document.getElementById('extension');
-var ROOM_LIST = []
 
-function getAllRooms(){
-  fetch('https://amr.sytes.net/meet', {
-    mode: 'no-cors',
+async function getAllRooms() {
+  const response = await fetch('https://amr.sytes.net/meet', {
     method: 'GET',
-    headers: {
-      'Access-Control-Allow-Origin':'*'
-    }
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    ROOM_LIST = response.json();
-  })
-  .catch(error => {
-    console.error('There was a problem with your fetch operation:', error);
   });
+  console.log(response)
+  return response.body;
 }
 
 function createRoom(roomName, createTime, roomURL){
@@ -29,11 +17,9 @@ function createRoom(roomName, createTime, roomURL){
   }
 
   fetch('https://amr.sytes.net/meet', {
-    mode: 'no-cors',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin':'*'
     },
     body: JSON.stringify(requestBody)
   })
@@ -85,7 +71,16 @@ function newMeetRoom(){
 }
 
 function chatMeetList(){
+  var roomList = [] 
+
   getAllRooms()
+  .then(rooms => {
+    roomList = rooms
+  })
+  .catch(error => {
+    console.error('Error fetching rooms:', error);
+  });
+
   extension.innerHTML = '';
 
   var goBack = document.createElement('button');
@@ -96,7 +91,8 @@ function chatMeetList(){
 
   extension.appendChild(goBack);
 
-  ROOM_LIST.forEach(function(item) {
+  console.log(roomList)
+  roomList.forEach(function(item) {
     var button = document.createElement('button');
     button.innerHTML = item.name;
     button.addEventListener('click', function() {

@@ -1,14 +1,13 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Google Meet URL Extension",
   "version": "1.0",
   "description": "Get the URL of the current Google Meet",
   "permissions": [
     "activeTab",
-    "storage",
-    "https://amr.sytes.net/"
+    "storage"
   ],
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "icon16.png",
       "48": "icon48.png",
