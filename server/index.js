@@ -62,9 +62,9 @@ app.get('/meet', async (req, res) => {
     const db = await getDatabasePool();
     const query = 'SELECT * FROM meeting';
     const result = await db.query(query);
-    res.status(200).send(result.rows);
+    res.status(200).json(result.rows);
   } catch (e) {
-    res.status(500).send({error: e});
+    res.status(500).json({error: e});
   }
 });
 
@@ -98,7 +98,7 @@ app.post('/meet', async (req, res) => {
     const {rows} = await db.query(query, options);
     res.status(200).json(rows);
   } catch (e) {
-    res.status(500).send({"error": e});
+    res.status(500).json({"error": e});
   }
 });
 
@@ -146,7 +146,7 @@ app.put('/meet/:id', async (req, res) => {
     const {rows} = await db.query(query, params);
     res.status(200).json(rows);
   } catch (e) {
-    res.status(500).send({error: e});
+    res.status(500).json({error: e});
   }
 });
 
@@ -185,9 +185,9 @@ app.delete('/meet/:id', async (req, res) => {
     const query = 'DELETE FROM meeting WHERE id=$1';
     const options = [id];
     const {rows} = await db.query(query, options);
-    res.status(200).send("success");
+    res.status(200).json("success");
   } catch (e) {
-    res.status(500).send({error: e});
+    res.status(500).json({error: e});
   }
 });
 
